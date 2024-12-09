@@ -16,20 +16,22 @@ int main()
 	struct bpf_program fp;
 	char filter_exp[] = "udp";
 	bpf_u_int32 net;
+	pcap_if_t *alldevs;
+	pcap_if_t *device;
 
 	// Step 1: Open live PCAP session handle on NIC using your interface name
 
-	char *dev = pcap_lookupdev(errbuf);
-	handle = pcap_open_live(dev, BUFSIZ, 1, 1000, errbuf);
+	handle = pcap_open_live("br-e213f01712b3", BUFSIZ, 1, 1000, errbuf);
 
 	// Step 2: Compile filter_exp into BPF pseudo-code
 
 	pcap_compile(handle, &fp, filter_exp, 0, net);
+	pcap_setfilter(handle, &fp);
 
 	// Step 3: Capture packets
 	printf("Sniffing...\n");
 
-	pcap_loop(handle, 0, got_packet, NULL);
+	pcap_loop(handle, -1, got_packet, NULL);
 
 	// Close the PCAP session handle
 

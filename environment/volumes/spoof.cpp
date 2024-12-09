@@ -31,7 +31,7 @@ int main()
     ip->iph_ttl = 64; 
     ip->iph_protocol = IPPROTO_UDP; 
     ip->iph_chksum = 0; 
-    ip->iph_sourceip.s_addr = inet_addr(CLIENT_IP); 
+    ip->iph_sourceip.s_addr = inet_addr(SPOOF_IP); 
     ip->iph_destip.s_addr = inet_addr(SERVER_IP); 
 
     // send packet
